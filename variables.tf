@@ -61,3 +61,8 @@ variable "allowed_origins" {
   type = list(string)
   default = []
 }
+
+variable "error_redirectable" {
+  type = bool
+  default = true
+}
