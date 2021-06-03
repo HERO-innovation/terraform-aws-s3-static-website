@@ -32,6 +32,11 @@ module "s3-static-website" {
   tags = {
     Foo = "Bar"
   }
+
+  cloudfront_function = {
+    event_type   = ""
+    function_arn = ""
+  }
 }
 ```
 
@@ -46,6 +51,7 @@ module "s3-static-website" {
 | secret | A secret string between CloudFront and S3 to control access | string | - | yes |
 | tags | A mapping of tags to assign to each resource | map | `<map>` | no |
 | zone_id | ID of the Route 53 Hosted Zone in which to create an alias record set | string | - | yes |
+| cloudfront_function | A object of CloudFront Functions | object | - | no |
 
 ## Outputs
 
