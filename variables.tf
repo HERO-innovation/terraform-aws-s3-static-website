@@ -58,11 +58,17 @@ variable "max_ttl" {
 }
 
 variable "allowed_origins" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 variable "error_redirectable" {
-  type = bool
+  type    = bool
   default = true
+}
+
+variable "cloudfront_function" {
+  description = "A function at viewer req/res of the distribution."
+  type        = object({ event_type = string, function_arn = string })
+  default     = { event_type = "", function_arn = "" }
 }

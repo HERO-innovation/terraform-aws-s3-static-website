@@ -13,7 +13,8 @@ locals {
     }
 }]
 EOF
-
+  function_arn                  = length(var.cloudfront_function.function_arn) > 0 ? var.cloudfront_function.function_arn : ""
+  event_type                    = length(var.cloudfront_function.event_type) > 0 ? var.cloudfront_function.event_type : ""
 }
 
 resource "aws_s3_bucket" "static_website" {
@@ -122,6 +123,11 @@ resource "aws_cloudfront_distribution" "cdn" {
     min_ttl                = var.min_ttl
     default_ttl            = var.default_ttl
     max_ttl                = var.max_ttl
+
+    function_association {
+      event_type   = local.event_type
+      function_arn = local.function_arn
+    }
   }
 
   restrictions {
