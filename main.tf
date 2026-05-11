@@ -64,6 +64,16 @@ resource "aws_s3_bucket_policy" "static_website_read_with_secret" {
   policy = data.aws_iam_policy_document.static_website_read_with_secret.json
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "static_website" {
+  bucket = aws_s3_bucket.static_website.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 locals {
   s3_origin_id = "cloudfront-distribution-origin-${var.domain_name}.s3.amazonaws.com${local.public_dir_with_leading_slash}"
 }
