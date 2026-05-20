@@ -32,6 +32,14 @@ resource "aws_s3_bucket" "static_website" {
     allowed_origins = length(var.allowed_origins) == 0 ? ["*"] : var.allowed_origins
   }
 
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
   tags = merge(
     {
       "Name" = "${var.domain_name}-static_website"
@@ -62,16 +70,6 @@ data "aws_iam_policy_document" "static_website_read_with_secret" {
 resource "aws_s3_bucket_policy" "static_website_read_with_secret" {
   bucket = aws_s3_bucket.static_website.id
   policy = data.aws_iam_policy_document.static_website_read_with_secret.json
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "static_website" {
-  bucket = aws_s3_bucket.static_website.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
 }
 
 locals {
